@@ -59,9 +59,6 @@ const authenticateUser = async (req, res, next) => {
                     msg: "Password incorrect",
                 });
             }
-            req.session.currentUser = {
-                currentUser: foundUser
-            }
         });
 
         return res.status(200).json({
@@ -86,6 +83,7 @@ const getUser = async (req, res, next) => {
             });
         }
 
+        //TODO: Make an object to send the user data back (- the hashword)
         res.status(200).json({
             msg: "found user",
             user: foundUser
@@ -126,23 +124,29 @@ const updateUser = async (req, res, next) => {
 
 //add jobPosting = PUT: Api Users will create the job first, then send this information
 const addjobPosting = async (req, res, next) => {
+    console.log("TESTING 123")
     try{
+        console.log("INSIDE TRY BLOCK")
         const updatedUser = await Users.findByIdAndUpdate(
             req.params.id,
             {
                 $push: {
                     "jobPostings": {
-                        id: req.body.jobId
+                        id: req.body.id,
+                        title: req.body.title,
+                        description: req.body.description
                     }
                 }
             }
         );
+        console.log("#~~~ UPDATED USER ~~~#");
+        console.log(updatedUser)
         return res.status(200).json({
             msg: "added job to jobPostings list",
         });
     } catch(err) {
         res.status(400).json({
-            msg: "error adding friend to user"
+            msg: "error adding Job TO JobList"
         })
     }
 }
@@ -151,6 +155,7 @@ const addjobPosting = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
     try{
         const deletedUser = await Users.findByIdAndDelete(req.params.id);
+        //TODO: Decide if sending back User data or not..
         res.status(200).json({
             msg: "successfully deleted user",
             deletedUser

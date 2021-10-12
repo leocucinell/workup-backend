@@ -10,7 +10,7 @@ const jobsSchema = new mongoose.Schema({
         required: [true, "please provide a job description"]
     },
     author: {
-        type: String,
+        type: Object,
         required: [true, "please provide a job author"]
     },
     streetAddress: {
@@ -22,7 +22,7 @@ const jobsSchema = new mongoose.Schema({
         required: [true, "please provide a city for this job"]
     },
     date: {
-        type: Date,
+        type: String, //TODO: Save to a Date when building frontend
         required: [true, "please provide a  date"]
     },
     spots: {

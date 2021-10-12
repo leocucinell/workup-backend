@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
         required: [true, "please provide a username"]
     },
     jobPostings: [{
-        type: String,
+        type: Object,
         required: false
     }]
 });
