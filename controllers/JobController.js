@@ -102,7 +102,22 @@ const updateJob = async (req, res, next) => {
 
 //delete job - DELETE
 const deleteJob = (req, res, next) => {
-    
+    try{
+        const deletedJob = await Jobs.findByIdAndDelete(req.params.id);
+        if(!deletedJob){
+            res.status(400).json({
+                msg: "error deleting job"
+            })
+        }
+        res.status(200).json({
+            msg: "successfully deleted job",
+            deletedJob
+        });
+    } catch(err) {
+        res.status(400).json({
+            msg: "error deleting job"
+        });
+    }
 }
 
 /* SECTION: Exports */
