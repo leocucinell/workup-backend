@@ -5,11 +5,6 @@ const { Jobs, Cities } = require("../models");
 /* SECTION: Routes */
 //create job - POST
 const createJob = async (req, res, next) => {
-    /*
-        grab and check if there is a current user within the session obj
-        if there is no user session, dont create and explain to user
-        else create and pass the user as author: {username, id}
-    */
     let jobHolder;
     try{
         jobHolder = await Jobs.create({
@@ -88,10 +83,8 @@ const updateJob = async (req, res, next) => {
                 title: req.body.title,
                 description: req.body.description,
                 streetAddress: req.body.streetAddress,
-                city: req.body.city,
                 date: req.body.date,
                 spots: req.body.spots,
-                filled_spots: req.body.filled_spots,
                 jobPurpose: req.body.jobPurpose
             },
             {
@@ -108,6 +101,8 @@ const updateJob = async (req, res, next) => {
         });
     }
 }
+
+//Add a user to the filled spots list
 
 //delete job - DELETE
 const deleteJob = async (req, res, next) => {
@@ -133,7 +128,7 @@ const deleteJob = async (req, res, next) => {
 const retrieveCityJobs = async (req, res, next) => {
     //Gets all the job items stored in a city: [{jobTitle, description, id}]
     try{
-        const currentCity = await Cities.findOne({title: req.params.cityName});
+        const currentCity = await Cities.findById(req.params.id);
         const cityList = currentCity.jobList
         if(!cityList){
             res.status(400).json({
