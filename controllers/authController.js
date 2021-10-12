@@ -88,6 +88,26 @@ const authenticateUser = async (req, res, next) => {
 }
 
 //Get a User - GET
+const getUser = async (req, res, next) => {
+    try{
+        const foundUser = await Users.findById(req.params.id);
+        if(!foundUser){
+            res.status(400).json({
+                msg: "User does not exist"
+            });
+        }
+
+        res.status(200).json({
+            msg: "found user",
+            user: foundUser
+        });
+
+    } catch(e) {
+        res.status(400).json({
+            msg: "Error getting specified user"
+        })
+    }
+}
 
 //Update a User - PUT: Might need to use express sessions or store a web token to check if correct user
 
@@ -97,4 +117,5 @@ const authenticateUser = async (req, res, next) => {
 module.exports = {
     createUser,
     authenticateUser,
+    getUser,
 }
