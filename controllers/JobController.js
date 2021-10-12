@@ -125,7 +125,7 @@ const deleteJob = async (req, res, next) => {
 const retrieveCityJobs = async (req, res, next) => {
     //Gets all the job items stored in a city: [{jobTitle, description, id}]
     try{
-        const currentCity = await Cities.findOne({title: req.body.title});
+        const currentCity = await Cities.findOne({title: req.params.cityName});
         const cityList = currentCity.jobList
         if(!cityList){
             res.status(400).json({
