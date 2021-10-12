@@ -1,4 +1,4 @@
-const { Jobs } = require("../models");
+const { Jobs, Cities } = require("../models");
 
 /* SECTION: Middleware */
 
@@ -36,6 +36,7 @@ const createJob = async (req, res, next) => {
                 });
             }
         });
+        //TODO: add the job to the city jobList
 
         res.status(200).json({
             msg: "successfully created job",
@@ -101,7 +102,7 @@ const updateJob = async (req, res, next) => {
 }
 
 //delete job - DELETE
-const deleteJob = (req, res, next) => {
+const deleteJob = async (req, res, next) => {
     try{
         const deletedJob = await Jobs.findByIdAndDelete(req.params.id);
         if(!deletedJob){
@@ -120,10 +121,33 @@ const deleteJob = (req, res, next) => {
     }
 }
 
+//Get list of jobs depending on city
+const retrieveCityJobs = async (req, res, next) => {
+    //Gets all the job items stored in a city: [{jobTitle, description, id}]
+    try{
+        const currentCity = await Cities.findOne({title: req.body.title});
+        const cityList = currentCity.jobList
+        if(!cityList){
+            res.status(400).json({
+                msg: "cannot find jobList",
+            });
+        }
+        res.status(200).json({
+            msg: "successfully deleted job",
+            cityList
+        });
+    } catch(e){
+        res.status(400).json({
+            msg: "cannot find jobList",
+        });
+    }
+}
+
 /* SECTION: Exports */
 module.exports = {
     createJob,
     getJob,
     updateJob,
-    deleteJob
+    deleteJob,
+    retrieveCityJobs
 }

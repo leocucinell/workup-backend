@@ -5,8 +5,8 @@ const citiesSchema = new mongoose.Schema({
         type: String,
         required: [true, "please provide a title"]
     },
-    jobList: [{
-        type: String,
+    jobList: [{ //{title, description, id}
+        type: Object,
         required: false
     }],
     latitude: {
