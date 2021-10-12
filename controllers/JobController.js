@@ -50,12 +50,29 @@ const createJob = async (req, res, next) => {
 }
 //read job - GET
 const getJob = (req, res, next) => {
-    
+    try{
+        const foundJob = Jobs.findById(req.body.id);
+        if(!foundJob){
+            res.status(400).json({
+                msg: "Error retrieving specified job"
+            });
+        }
+
+        res.status(200).json({
+            msg: "Found Job",
+            job: foundJob
+        });
+
+    } catch(e){
+        res.status(400).json({
+            msg: "Error getting specified job"
+        });
+    }
 }
 
 //update job - PUT
 const updateJob = (req, res, next) => {
-    
+
 }
 
 //delete job - DELETE
