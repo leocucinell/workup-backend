@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    userID: {
-        type: String,
-        required: [true, "please provide a user id"]
-    },
     username: {
         type: String,
         required: [true, "please provide a username"]

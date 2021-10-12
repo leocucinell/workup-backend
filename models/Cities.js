@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const citiesSchema = new mongoose.Schema({
-    cityId: {
-        type: String,
-        required: [true, "please provide a city id"]
-    },
     title: {
         type: String,
         required: [true, "please provide a title"]
