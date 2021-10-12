@@ -179,5 +179,6 @@ module.exports = {
     authenticateUser,
     getUser,
     addjobPosting,
-    deleteUser
+    deleteUser,
+    updateUser
 }
