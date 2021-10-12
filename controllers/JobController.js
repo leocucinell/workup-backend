@@ -52,7 +52,7 @@ const createJob = async (req, res, next) => {
 //read job - GET
 const getJob = async (req, res, next) => {
     try{
-        const foundJob = await Jobs.findById(req.body.id);
+        const foundJob = await Jobs.findById(req.params.id);
         if(!foundJob){
             res.status(400).json({
                 msg: "Error retrieving specified job"
