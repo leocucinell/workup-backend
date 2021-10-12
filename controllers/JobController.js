@@ -49,9 +49,9 @@ const createJob = async (req, res, next) => {
     }
 }
 //read job - GET
-const getJob = (req, res, next) => {
+const getJob = async (req, res, next) => {
     try{
-        const foundJob = Jobs.findById(req.body.id);
+        const foundJob = await Jobs.findById(req.body.id);
         if(!foundJob){
             res.status(400).json({
                 msg: "Error retrieving specified job"
@@ -71,8 +71,33 @@ const getJob = (req, res, next) => {
 }
 
 //update job - PUT
-const updateJob = (req, res, next) => {
-
+const updateJob = async (req, res, next) => {
+    try{
+        const updatedJob = await Jobs.findByIdAndUpdate(
+            req.params.id,
+            {
+                title: req.body.title,
+                description: req.body.description,
+                streetAddress: req.body.streetAddress,
+                city: req.body.city,
+                date: req.body.date,
+                spots: req.body.spots,
+                filled_spots: req.body.filled_spots,
+                jobPurpose: req.body.jobPurpose
+            },
+            {
+                new: true
+            }
+        );
+        return res.status(200).json({
+            msg: "successfully updated job",
+            updatedJob
+        });
+    } catch(err) {
+        res.status(400).json({
+            msg: "error updating job"
+        });
+    }
 }
 
 //delete job - DELETE
