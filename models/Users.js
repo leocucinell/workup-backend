@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "please provide a password"]
     },
-    main_city: {
+    mainCity: {
         type: String,
         required: [true, "please provide a username"]
     },

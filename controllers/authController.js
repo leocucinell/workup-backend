@@ -6,17 +6,6 @@ const { Users } = require("../models")
 /* SECTION: Routes */
 //Create User - POST
 const createUser = async (req, res, next) => {
-    /*
-        - Check the database for the specs of the user you are about to create
-        - if they already exist: Send a warning to the api user
-        - else: continue
-
-        - salt and hash the password that is sent with bcrypt
-
-        - create the user within the database: use callback to check if error has occured
-
-        - reutrn a successful status code and message
-    */
     try{
         const doesUserExist = await Users.exists({$or:[{email: req.body.email}, {username: req.body.username}]});
         if(doesUserExist){
@@ -57,7 +46,7 @@ const authenticateUser = async (req, res, next) => {
             - check the hashed password with the bcrypt.compare method
             - if bcrypt passes, set the session for the logged in user
         */
-        const foundUser = Users.findOne({$or:[{email: req.body.email}, {username: req.body.username}]});
+        const foundUser = await Users.findOne({$or:[{email: req.body.email}, {username: req.body.username}]});
         if(!foundUser){
             return res.status(406).json({
                 msg: "User does not exist",
