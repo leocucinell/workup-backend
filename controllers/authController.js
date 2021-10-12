@@ -110,12 +110,74 @@ const getUser = async (req, res, next) => {
 }
 
 //Update a User - PUT: Might need to use express sessions or store a web token to check if correct user
+const updateUser = async (req, res, next) => {
+    try{
+        const updatedUser = await Users.findByIdAndUpdate(
+            req.params.id,
+            {
+                username: req.body.username,
+                email: req.body.email,
+                address: req.body.address,
+                mainCity: req.body.city
+            },
+            {
+                new: true
+            }
+        );
+        return res.status(200).json({
+            msg: "successfully updated user",
+            updatedUser
+        });
+    } catch(err) {
+        res.status(400).json({
+            msg: "error updating user"
+        })
+    }
+}
+
+//add jobPosting = PUT: Api Users will create the job first, then send this information
+const addjobPosting = async (req, res, next) => {
+    try{
+        const updatedUser = await Users.findByIdAndUpdate(
+            req.params.id,
+            {
+                $push: {
+                    "jobPostings": {
+                        id: req.body.jobId
+                    }
+                }
+            }
+        );
+        return res.status(200).json({
+            msg: "added job to jobPostings list",
+        });
+    } catch(err) {
+        res.status(400).json({
+            msg: "error adding friend to user"
+        })
+    }
+}
 
 //Delete a User - DELETE
+const deleteUser = async (req, res, next) => {
+    try{
+        const deletedUser = await Users.findByIdAndDelete(req.params.id);
+        res.status(200).json({
+            msg: "successfully deleted user",
+            deletedUser
+        })
+    } catch(err) {
+        res.status(400).json({
+            msg: "error deleting user"
+        })
+    }
+}
 
 /* SECTION: Exports */
 module.exports = {
     createUser,
     authenticateUser,
     getUser,
+    addjobPosting,
+    deleteUser
 }

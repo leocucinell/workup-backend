@@ -24,10 +24,6 @@ const userSchema = new mongoose.Schema({
     jobPostings: [{
         type: String,
         required: false
-    }],
-    jobReciepts: [{
-        type: String,
-        required: false
     }]
 });
 //add time stamps!!!
